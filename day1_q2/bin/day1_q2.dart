@@ -12,11 +12,18 @@ void main(List<String> arguments) async {
 
       input.forEach((x) {
         final parsedX = int.parse(x);
-        final diff = 2020 - parsedX;
+        final diff1 = 2020 - parsedX;
 
-        if (input.contains('$diff')) {
-          print(parsedX * diff);
-        }
+        input.forEach((y) {
+          final parsedY = int.parse(y);
+          final diff2 = diff1 - parsedY;
+
+          if (input.contains('$diff2')) {
+            print(parsedX * parsedY * diff2);
+          }
+        });
+
+
       });
     } catch (exception) {
       print('Error happened: $exception');
