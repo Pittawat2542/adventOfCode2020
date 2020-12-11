@@ -1,27 +1,33 @@
 import 'dart:io';
 
 void main(List<String> arguments) async {
-  final rootFolderPath = File(Platform.script.toFilePath()).parent.path;
-  final inputFileName = 'input.txt';
+  final inputStringList = await readInputFile('input.txt');
 
-  final inputFile = File('$rootFolderPath/$inputFileName');
+  if (inputStringList != null) {
+    inputStringList.forEach((x) {
+      final parsedX = int.tryParse(x) ?? 0;
+      final diff = 2020 - parsedX;
+
+      if (inputStringList.contains('$diff')) {
+        print(parsedX * diff);
+      }
+    });
+  }
+}
+
+Future<List<String>> readInputFile(String fileName) async {
+  final rootFolderPath = File(Platform.script.toFilePath()).parent.path;
+  final inputFile = File('$rootFolderPath/$fileName');
 
   if (await inputFile.exists()) {
     try {
-      final input = await inputFile.readAsLines();
-
-      input.forEach((x) {
-        final parsedX = int.parse(x);
-        final diff = 2020 - parsedX;
-
-        if (input.contains('$diff')) {
-          print(parsedX * diff);
-        }
-      });
+      return await inputFile.readAsLines();
     } catch (exception) {
       print('Error happened: $exception');
+      return null;
     }
   } else {
     print('File does not exist!');
+    return null;
   }
 }
